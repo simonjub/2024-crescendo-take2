@@ -9,27 +9,32 @@ Les différents sous systèmes du robot avec leur difficulté d'implémentation 
 block-beta
 columns 1
   block:row1
-    A["Joystick layout - 3"]
+    A["Joystick layout - 3 (Laurent, Luc)"]
     B["Climber - 3"]
-    C["Elevator - 2"]
   end
 
   block:row2
-    D["Swerve - 1"]
-    E["Shooter/Intake - 2"]
-    F["LED - 3"]
+    C["Elevator - 2 (Vic, Félix, Olivier)"]
+    D["Swerve/Navex- 1 (Rose, Gilles, Simon)"]
   end
 
   block:row3
-    G["Shuffleboard - 2"]
-    H["Vision - 1 "]
-    I["Auto - 1"]
+    E["Shooter/Intake - 2"]
+    F["LED - 3 (Elliot, Cassey)"]
   end
   
   block:row4
-    J["Radio - 2"]
-    K["Canivore - 2"]
-    L["Navex - 2"]
+    G["Shuffleboard - 2"]
+    H["Vision - 1 (Steph,) "]
+  end
+
+  block:row5
+    I["Auto - 1( Igor)"]
+    J["Radio - 2 (Evan)"]
+  end
+
+  block:row6
+    K["Canivore - 2 (Evan)"]
   end
 :::
 
