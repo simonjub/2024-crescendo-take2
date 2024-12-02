@@ -6,9 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.swerve.CTREConfigs;
 
 public class RobotContainer {
+
+  private final CommandXboxController m_controller = new CommandXboxController(0);
+  public static final CTREConfigs ctreConfigs = new CTREConfigs();
+
   public RobotContainer() {
+
     configureBindings();
   }
 
