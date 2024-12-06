@@ -29,7 +29,7 @@ public class SwerveModule {
   private final DutyCycleOut driveDutyCycle = new DutyCycleOut(0);
   private final VelocityVoltage driveVelocity = new VelocityVoltage(0);
   private final VoltageOut m_voltageOutControl = new VoltageOut(0.0);
-  private boolean m_debug = false;
+  private boolean m_debug = true;
 
   /* angle motor control requests */
   private final PositionVoltage anglePosition = new PositionVoltage(0);
@@ -43,10 +43,10 @@ public class SwerveModule {
     //       RobotContainer.ctreConfigs.dutyCycleRangeMin,
     // RobotContainer.ctreConfigs.dutyCycleRangeMax);
     /* Angle Motor Config */
-    mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
+    mAngleMotor = new TalonFX(moduleConstants.angleMotorID, "CANivore_3360");
     mAngleMotor.getConfigurator().apply(RobotContainer.ctreConfigs.swerveAngleFXConfig);
     /* Drive Motor Config */
-    mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
+    mDriveMotor = new TalonFX(moduleConstants.driveMotorID, "CANivore_3360");
     mDriveMotor.getConfigurator().apply(RobotContainer.ctreConfigs.swerveDriveFXConfig);
     mDriveMotor.getConfigurator().setPosition(0.0);
   }
