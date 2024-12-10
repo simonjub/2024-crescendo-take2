@@ -18,9 +18,9 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 /***
  * TODO:
- * 2024-12-09:  - Need to calibrate the camera possibly try with something different than onboard picam if 
+ * 2024-12-09:  - Need to calibrate the camera possibly try with something different than onboard picam if
  *              the detection distance isn't enough.
- *              - Once calibrated and the correct distance is obtained, use the LED module to signal the 
+ *              - Once calibrated and the correct distance is obtained, use the LED module to signal the
  *              driver he's within shooting distance then used the elevator match the distance and angle
  *              - then integrate the swerve to allow the driver to control translate and strafe
  */

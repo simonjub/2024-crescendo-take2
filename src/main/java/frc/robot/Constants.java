@@ -190,12 +190,6 @@ public final class Constants {
     public static double kAmpShootingDistance = 0.1;
     public static double kShooterCameraPitch = 0.1309; // 7.5deg;
     public static double kCameraHeight = 0.432; // 43.2 cm
-  }
-
-  public static class VisionConstants {
-    public static int kRedSpeakerTag = 4;
-    public static int kBlueSpeakerTag = 7;
-    public static Integer kSpeakerIndex[] = {kRedSpeakerTag, kBlueSpeakerTag};
     public static double kAprilTagCameraHeight = 0.6; // TODO change for real measure! 60 cm
     // Angle between horizontal and the camera.
     public static double kAprilTagCameraPitch = 0; // TODO change for real measure! 0 deg

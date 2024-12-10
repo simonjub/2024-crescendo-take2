@@ -16,10 +16,11 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.swerve.CTREConfigs;
 import frc.robot.subsystems.swerve.Swerve;
-<<<<<<< HEAD
 import java.util.function.DoubleSupplier;
-=======
 import frc.robot.commands.SpeakerLock;
+import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.Swerve.CTREConfigs;
+import frc.robot.subsystems.Swerve.Swerve;
 import org.photonvision.PhotonCamera;
 >>>>>>> afe347c (WIP acquiring apriltag target)
 
