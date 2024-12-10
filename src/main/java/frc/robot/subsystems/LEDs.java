@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -50,6 +51,7 @@ public class LEDs extends SubsystemBase {
     for (var i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 0, 0, 255);
     }
+    ledStrip.setData(ledBuffer);
   }
 
   public Command blue() {
@@ -62,6 +64,7 @@ public class LEDs extends SubsystemBase {
     for (var i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 0, 255, 0);
     }
+    ledStrip.setData(ledBuffer);
   }
 
   public Command green() {
@@ -74,6 +77,7 @@ public class LEDs extends SubsystemBase {
     for (var i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 255, 0, 0);
     }
+    ledStrip.setData(ledBuffer);
   }
 
   public Command red() {
@@ -86,6 +90,7 @@ public class LEDs extends SubsystemBase {
     for (var i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 0, 128, 128);
     }
+    ledStrip.setData(ledBuffer);
   }
 
   public Command teal() {
@@ -99,6 +104,7 @@ public class LEDs extends SubsystemBase {
     for (var i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 255, 255, 0);
     }
+    ledStrip.setData(ledBuffer);
   }
 
   public Command yellow() {
@@ -112,6 +118,7 @@ public class LEDs extends SubsystemBase {
     for (var i = 0; i < ledBuffer.getLength(); i++) {
       ledBuffer.setRGB(i, 255, 255, 0);
     }
+    ledStrip.setData(ledBuffer);
   }
 
   public Command orange() {
@@ -119,9 +126,23 @@ public class LEDs extends SubsystemBase {
     return this.runOnce(() -> setOrangeColor());
   }
 
+  public void setColorFinder() {
+    int RED = (int) SmartDashboard.getNumber("colorFinderRed", 0);
+    int GREEN = (int) SmartDashboard.getNumber("colorFinderGreen", 0);
+    int BLUE = (int) SmartDashboard.getNumber("colorFinderBlue", 0);
+    for (var i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, RED, GREEN, BLUE);
+    }
+    ledStrip.setData(ledBuffer);
+  }
+
+  public Command colorFinder() {
+
+    return this.runOnce(() -> setColorFinder());
+  }
+
   @Override
   public void periodic() {
-
-    ledStrip.setData(ledBuffer);
+    setColorFinder();
   }
 }

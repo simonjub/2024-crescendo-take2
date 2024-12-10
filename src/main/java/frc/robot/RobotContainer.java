@@ -52,6 +52,9 @@ public class RobotContainer {
     SmartDashboard.putData("teal", m_LEDs.teal());
     SmartDashboard.putData("yellow", m_LEDs.yellow());
     SmartDashboard.putData("orange", m_LEDs.orange());
+    SmartDashboard.putNumber("colorFinderRed", 0);
+    SmartDashboard.putNumber("colorFinderGreen", 0);
+    SmartDashboard.putNumber("colorFinderBlue", 0);
   }
 
   private void configureSmartDashboardCommands() {
