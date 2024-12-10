@@ -6,8 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.Climber;
 
 public class RobotContainer {
+  private final Climber m_climber = new Climber();
+
   public RobotContainer() {
     configureBindings();
   }
