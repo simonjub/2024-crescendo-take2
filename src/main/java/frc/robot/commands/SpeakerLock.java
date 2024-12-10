@@ -1,13 +1,29 @@
 package frc.robot.commands;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import java.io.IOException;
 import java.util.function.DoubleSupplier;
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
+
+/***
+ * TODO:
+ * 2024-12-09:  - Need to calibrate the camera possibly try with something different than onboard picam if 
+ *              the detection distance isn't enough.
+ *              - Once calibrated and the correct distance is obtained, use the LED module to signal the 
+ *              driver he's within shooting distance then used the elevator match the distance and angle
+ *              - then integrate the swerve to allow the driver to control translate and strafe
+ */
 
 // import frc.robot.subsystems.Elevator;
 // import frc.robot.subsystems.LEDs;
@@ -21,6 +37,7 @@ public class SpeakerLock extends Command {
   private DoubleSupplier m_strafeSup;
   // private LEDs m_led;
   private int m_alliance_index;
+  private AprilTagFieldLayout m_aprilTagFieldLayout;
 
   /**
    * Command to keep the aiming at the speaker while keeping the robot in motion
@@ -37,19 +54,29 @@ public class SpeakerLock extends Command {
       DoubleSupplier translationSup, DoubleSupplier strafeSup, PhotonCamera camera) {
     this.m_camera = camera;
 
-    // this.m_swerve = s_swerve;
-    // this.m_led = s_led;
+    try {
+      m_aprilTagFieldLayout =
+          AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
+    } catch (IOException e) {
+      m_aprilTagFieldLayout = null;
+    }
 
-    // find out the current alliance with fail safe
-    m_alliance_index = 0;
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent()) m_alliance_index = alliance.get() == Alliance.Red ? 0 : 1;
+    if (m_aprilTagFieldLayout != null) {
 
-    // addRequirements(s_swerve);
-    // addRequirements(s_led);
+      // this.m_swerve = s_swerve;
+      // this.m_led = s_led;
 
-    this.m_translationSup = translationSup;
-    this.m_strafeSup = strafeSup;
+      // find out the current alliance with fail safe
+      m_alliance_index = 0;
+      var alliance = DriverStation.getAlliance();
+      if (alliance.isPresent()) m_alliance_index = alliance.get() == Alliance.Red ? 0 : 1;
+
+      // addRequirements(s_swerve);
+      // addRequirements(s_led);
+
+      this.m_translationSup = translationSup;
+      this.m_strafeSup = strafeSup;
+    }
   }
 
   @Override
@@ -69,10 +96,16 @@ public class SpeakerLock extends Command {
 
   @Override
   public void execute() {
-    double translationVal =
-        MathUtil.applyDeadband(m_translationSup.getAsDouble(), Constants.stickDeadband);
+    double translationVal = 0;
+    double strafeVal = 0;
 
-    double strafeVal = MathUtil.applyDeadband(m_strafeSup.getAsDouble(), Constants.stickDeadband);
+    if (m_translationSup != null)
+      translationVal =
+          MathUtil.applyDeadband(m_translationSup.getAsDouble(), Constants.stickDeadband);
+
+    if (m_strafeSup != null)
+      strafeVal = MathUtil.applyDeadband(m_strafeSup.getAsDouble(), Constants.stickDeadband);
+
     double rotationVal = 0;
     // double rotationVal = m_swerve.getRotation2d().getRadians();
 
@@ -80,11 +113,15 @@ public class SpeakerLock extends Command {
 
     // Vision-alignment mode
     // Query the latest result from PhotonVision
-    var result = m_camera.getLatestResult();
+    PhotonPipelineResult result = null;
 
-    if (result.hasTargets()) {
+    if (m_camera != null) result = m_camera.getLatestResult();
+
+    if (result != null && result.hasTargets()) {
       for (var t : result.getTargets()) {
-        if (t.getFiducialId() == Constants.VisionConstants.kSpeakerIndex[m_alliance_index]) {
+        if (t.getFiducialId() == 10) {
+          //        if (t.getFiducialId() ==
+          // Constants.VisionConstants.kSpeakerIndex[m_alliance_index]) {
           target = t;
           break;
         }
@@ -95,15 +132,37 @@ public class SpeakerLock extends Command {
     if (target != null) {
       // TODO this will most likely require some sort of conversion to speed
       rotationVal = target.getYaw();
+      SmartDashboard.putString("Target id", Integer.toString(target.getFiducialId()));
+
+      var targetHeight = m_aprilTagFieldLayout.getTagPose(target.getFiducialId()).get().getZ();
+      SmartDashboard.putString("Target height", Double.toString(targetHeight));
+
+      var targetPitch = target.getPitch();
+
+      SmartDashboard.putString("Target pitch", Double.toString(targetPitch));
+
+      var distanceToTarget =
+          PhotonUtils.calculateDistanceToTargetMeters(
+              Constants.VisionConstants.kAprilTagCameraHeight,
+              targetHeight,
+              Constants.VisionConstants.kAprilTagCameraPitch,
+              Units.degreesToRadians(targetPitch));
+
+      SmartDashboard.putString("Target distance", Double.toString(distanceToTarget));
+
+      if (distanceToTarget < Constants.VisionConstants.kSpeakerShootingDistance) {
+        ;
+        // m_elevator.extendTheElevator(Elevator.elevatorHeight.LOW);
+        // set LED to flash green
+      }
+
+      /* Rotate to face speaker */
+      // m_swerve.drive(
+      // new Translation2d(translationVal,
+      // strafeVal).times(Constants.Swerve.maxSpeed),
+      // m_rotDirection * 0.2 * Constants.Swerve.maxAngularVelocity, // constant speed
+      // false,
+      // true);
     }
-
-    /* Rotate to face speaker */
-    // m_swerve.drive(
-    // new Translation2d(translationVal,
-    // strafeVal).times(Constants.Swerve.maxSpeed),
-    // m_rotDirection * 0.2 * Constants.Swerve.maxAngularVelocity, // constant speed
-    // false,
-    // true);
-
   }
 }
