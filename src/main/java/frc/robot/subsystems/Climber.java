@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -32,6 +31,8 @@ public class Climber extends SubsystemBase {
 
     m_climber_left.follow(m_climber_right, true);
 
+    m_climber_encoder.setPosition(0.0);
+
     m_climber_left.setOpenLoopRampRate(rampRate);
     m_climber_right.setOpenLoopRampRate(rampRate);
 
@@ -47,6 +48,7 @@ public class Climber extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
-
+  public void periodic() {
+    System.out.println("Climber Encoder: " + m_climber_encoder.getPosition());
+  }
 }
