@@ -68,6 +68,8 @@ public class Climber extends SubsystemBase {
         // descendre
         climberSpeed = Math.pow(rAxisY, 2);
       }
+    } else {
+      climberSpeed = 0.0;
     }
   }
 }
