@@ -8,6 +8,8 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -22,7 +24,10 @@ public class Climber extends SubsystemBase {
   // apparently only 1 encoder is needed (makes sense actually im just dumb)
   private RelativeEncoder m_climber_encoder = m_climber_right.getEncoder();
 
-  private double rampRate = 1.5;
+  private double rampRate = 1;
+
+  /** Climber speed changed by trigger */
+  private double climberSpeed = 0.0;
 
   /** Creates a new Climber. */
   public Climber() {
@@ -43,12 +48,26 @@ public class Climber extends SubsystemBase {
     m_climber_right.burnFlash();
 
     // amp limit (2-3A) (boom)
-    m_climber_left.setSmartCurrentLimit(2);
-    m_climber_right.setSmartCurrentLimit(2);
+    m_climber_left.setSmartCurrentLimit(15);
+    m_climber_right.setSmartCurrentLimit(15);
   }
 
   @Override
   public void periodic() {
-    System.out.println("Climber Encoder: " + m_climber_encoder.getPosition());
+    SmartDashboard.putNumber("Climber encoder", m_climber_encoder.getPosition());
+    m_climber_right.set(climberSpeed);
+    setClimberSpeed();
+  }
+
+  public void setClimberSpeed() {
+    double rAxisY = new XboxController(0).getRawAxis(5);
+    if (Math.abs(rAxisY) > 0.05) {
+      if (rAxisY > 0) {
+        climberSpeed = -Math.pow(rAxisY, 2);
+      } else {
+        // descendre
+        climberSpeed = Math.pow(rAxisY, 2);
+      }
+    }
   }
 }
