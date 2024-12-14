@@ -60,8 +60,9 @@ public class Climber extends SubsystemBase {
   }
 
   public void setClimberSpeed() {
-    double rAxisY = new XboxController(0).getRawAxis(5);
-    if (Math.abs(rAxisY) > 0.05) {
+    double rAxisY =
+        new XboxController(Constants.OperatorConstants.kCoDriverControllerPort).getRawAxis(5);
+    if (Math.abs(rAxisY) > Constants.stickDeadband) {
       if (rAxisY > 0) {
         climberSpeed = -Math.pow(rAxisY, 2);
       } else {
