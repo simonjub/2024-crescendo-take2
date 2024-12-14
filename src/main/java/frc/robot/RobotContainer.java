@@ -11,13 +11,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.swerve.CTREConfigs;
 import frc.robot.subsystems.swerve.Swerve;
-import frc.robot.subsystems.Climber;
 
 public class RobotContainer {
   private final Climber m_climber = new Climber();
-
 
   private final Swerve m_swerveDrive = new Swerve();
   private final CommandXboxController m_driverController = new CommandXboxController(0);
@@ -50,6 +49,8 @@ public class RobotContainer {
             () -> conditionJoystick(strafeAxis, strafeLimiter, kJoystickDeadband),
             () -> conditionJoystick(rotationAxis, rotationLimiter, kJoystickDeadband),
             () -> true));
+
+    m_climber.setDefaultCommand(m_climber.run(() -> m_climber.setClimberSpeed()));
 
     configureBindings();
   }
