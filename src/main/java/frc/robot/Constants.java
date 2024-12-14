@@ -161,4 +161,12 @@ public final class Constants {
                     + (Swerve.wheelBase / 2.0 * Swerve.wheelBase / 2.0)),
             new ReplanningConfig());
   }
+
+  public final class ClimberConstants {
+    /** Device Id for left climber */
+    public static int kLeftClimberId = 11;
+
+    /** Device Id for left climber */
+    public static int kRightClimberId = 12;
+  }
 }

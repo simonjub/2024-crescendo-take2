@@ -13,8 +13,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.swerve.CTREConfigs;
 import frc.robot.subsystems.swerve.Swerve;
+import frc.robot.subsystems.Climber;
 
 public class RobotContainer {
+  private final Climber m_climber = new Climber();
+
 
   private final Swerve m_swerveDrive = new Swerve();
   private final CommandXboxController m_driverController = new CommandXboxController(0);
