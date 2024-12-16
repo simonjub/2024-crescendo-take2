@@ -176,4 +176,5 @@ public final class Constants {
 
     public static int kCoDriverControllerPort = 1;
   }
+  public static final double kDeadband = 0.1;
 }

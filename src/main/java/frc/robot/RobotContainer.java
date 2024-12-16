@@ -9,11 +9,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.swerve.CTREConfigs;
-import frc.robot.subsystems.swerve.Swerve;
 
 public class RobotContainer {
   private final Climber m_climber = new Climber();
@@ -38,7 +34,12 @@ public class RobotContainer {
         MathUtil.applyDeadband(m_driverController.getRawAxis(axis), deadband));
   }
 
+  private final CommandXboxController m_coDriverController = new CommandXboxController(1);
+
+  private final DoubleSupplier climbAxis = () -> m_coDriverController.getRawAxis(5);
+
   public RobotContainer() {
+    m_climber.setDefaultCommand(new Climb(m_climber, climbAxis));
 
     m_swerveDrive.resetModulesToAbsolute();
 
@@ -49,8 +50,6 @@ public class RobotContainer {
             () -> conditionJoystick(strafeAxis, strafeLimiter, kJoystickDeadband),
             () -> conditionJoystick(rotationAxis, rotationLimiter, kJoystickDeadband),
             () -> true));
-
-    m_climber.setDefaultCommand(m_climber.run(() -> m_climber.setClimberSpeed()));
 
     configureBindings();
   }

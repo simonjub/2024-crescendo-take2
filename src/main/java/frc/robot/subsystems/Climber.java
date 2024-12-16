@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -56,21 +55,14 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Climber encoder", m_climber_encoder.getPosition());
     m_climber_right.set(climberSpeed);
-    setClimberSpeed();
   }
 
-  public void setClimberSpeed() {
-    double rAxisY =
-        new XboxController(Constants.OperatorConstants.kCoDriverControllerPort).getRawAxis(5);
-    if (Math.abs(rAxisY) > Constants.stickDeadband) {
-      if (rAxisY > 0) {
-        climberSpeed = -Math.pow(rAxisY, 2);
-      } else {
-        // descendre
-        climberSpeed = Math.pow(rAxisY, 2);
-      }
+  // axis : Right stick Y axis (codrive controller)
+  public void setClimbSpeed(double axis) {
+    if (axis > 0) {
+      climberSpeed = Math.pow(axis, 2);
     } else {
-      climberSpeed = 0.0;
+      climberSpeed = -Math.pow(axis, 2);
     }
   }
 }
