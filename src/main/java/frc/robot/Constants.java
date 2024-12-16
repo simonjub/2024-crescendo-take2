@@ -14,17 +14,5 @@ public final class Constants {
     public static int kRightClimberId = 12;
   }
 
-  public final class ShInConstants {
-    /** Device Id for front right shooter/intake motor */
-    public static int kRightShIn1 = 13;
-
-    /** Device Id for back right shooter/intake motor */
-    public static int kRightShIn2 = 14;
-
-    /** Device Id for front left shooter/intake motor */
-    public static int kLeftShIn1 = 15;
-
-    /** Device Id for back left shooter/intake motor */
-    public static int kLeftShIn2 = 16;
-  }
+  public static final double kDeadband = 0.1;
 }
