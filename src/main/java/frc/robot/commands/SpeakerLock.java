@@ -18,6 +18,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 /***
  * TODO:
+ * 2024-12-16:  - camera vision2 calibrated 640x480 (Microsoft LifeCam HD-3000)
  * 2024-12-09:  - Need to calibrate the camera possibly try with something different than onboard picam if
  *              the detection distance isn't enough.
  *              - Once calibrated and the correct distance is obtained, use the LED module to signal the

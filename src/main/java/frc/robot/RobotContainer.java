@@ -69,7 +69,7 @@ public class RobotContainer {
             () -> conditionJoystick(rotationAxis, rotationLimiter, kJoystickDeadband),
             () -> true));
 
-    m_camera = new PhotonCamera("front");
+    m_camera = new PhotonCamera("vision2");
     m_speakerLockCmd = new SpeakerLock(null, null, m_camera);
     configureBindings();
     configureSmartDashboardCommands();
