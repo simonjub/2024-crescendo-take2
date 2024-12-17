@@ -161,4 +161,20 @@ public final class Constants {
                     + (Swerve.wheelBase / 2.0 * Swerve.wheelBase / 2.0)),
             new ReplanningConfig());
   }
+
+  public final class ClimberConstants {
+    /** Device Id for left climber */
+    public static int kLeftClimberId = 12;
+
+    /** Device Id for left climber */
+    public static int kRightClimberId = 11;
+  }
+
+  public final class OperatorConstants {
+
+    public static int kDriverControllerPort = 0;
+
+    public static int kCoDriverControllerPort = 1;
+  }
+  public static final double kDeadband = 0.1;
 }

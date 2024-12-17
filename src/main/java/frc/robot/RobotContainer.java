@@ -10,11 +10,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.Climb;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.swerve.CTREConfigs;
 import frc.robot.subsystems.swerve.Swerve;
+import java.util.function.DoubleSupplier;
 
 public class RobotContainer {
+  private final Climber m_climber = new Climber();
 
   private final Swerve m_swerveDrive = new Swerve();
   private final CommandXboxController m_driverController = new CommandXboxController(0);
@@ -36,7 +40,12 @@ public class RobotContainer {
         MathUtil.applyDeadband(m_driverController.getRawAxis(axis), deadband));
   }
 
+  private final CommandXboxController m_coDriverController = new CommandXboxController(1);
+
+  private final DoubleSupplier climbAxis = () -> m_coDriverController.getRawAxis(5);
+
   public RobotContainer() {
+    m_climber.setDefaultCommand(new Climb(m_climber, climbAxis));
 
     m_swerveDrive.resetModulesToAbsolute();
 
