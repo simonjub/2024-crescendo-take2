@@ -164,10 +164,10 @@ public final class Constants {
 
   public final class ClimberConstants {
     /** Device Id for left climber */
-    public static int kLeftClimberId = 11;
+    public static int kLeftClimberId = 12;
 
     /** Device Id for left climber */
-    public static int kRightClimberId = 12;
+    public static int kRightClimberId = 11;
   }
 
   public final class OperatorConstants {
