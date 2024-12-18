@@ -176,5 +176,24 @@ public final class Constants {
 
     public static int kCoDriverControllerPort = 1;
   }
+
   public static final double kDeadband = 0.1;
+
+  public static class VisionConstants {
+    public static long kPositionCoalescingTime = 100 * 1000; // 100 ms in microseconds
+    public static int kRedSpeakerTag = 4;
+    public static int kBlueSpeakerTag = 7;
+    public static Integer kSpeakerIndex[] = {kRedSpeakerTag, kBlueSpeakerTag};
+    public static int kRedAmpTag = 5;
+    public static int kBlueAmpTag = 6;
+    public static Integer kAmpIndex[] = {kRedAmpTag, kBlueAmpTag};
+    public static double kAmpRiseElevatorDistance = 0.5;
+    public static double kAmpShootingDistance = 0.1;
+    public static double kShooterCameraPitch = 0.1309; // 7.5deg;
+    public static double kCameraHeight = 0.432; // 43.2 cm
+    public static double kAprilTagCameraHeight = 0.6; // TODO change for real measure! 60 cm
+    // Angle between horizontal and the camera.
+    public static double kAprilTagCameraPitch = 0; // TODO change for real measure! 0 deg
+    public static double kSpeakerShootingDistance = 2.0; // 2 meters
+  }
 }
