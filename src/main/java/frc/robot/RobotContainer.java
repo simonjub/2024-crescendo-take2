@@ -12,17 +12,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Climb;
+import frc.robot.commands.SpeakerLock;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.swerve.CTREConfigs;
 import frc.robot.subsystems.swerve.Swerve;
 import java.util.function.DoubleSupplier;
-import frc.robot.commands.SpeakerLock;
-import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.Swerve.CTREConfigs;
-import frc.robot.subsystems.Swerve.Swerve;
 import org.photonvision.PhotonCamera;
->>>>>>> afe347c (WIP acquiring apriltag target)
 
 public class RobotContainer {
   private final Climber m_climber = new Climber();
@@ -47,14 +43,11 @@ public class RobotContainer {
         MathUtil.applyDeadband(m_driverController.getRawAxis(axis), deadband));
   }
 
-<<<<<<< HEAD
   private final CommandXboxController m_coDriverController = new CommandXboxController(1);
 
   private final DoubleSupplier climbAxis = () -> m_coDriverController.getRawAxis(5);
-=======
   private SpeakerLock m_speakerLockCmd;
   private PhotonCamera m_camera;
->>>>>>> afe347c (WIP acquiring apriltag target)
 
   public RobotContainer() {
     m_climber.setDefaultCommand(new Climb(m_climber, climbAxis));

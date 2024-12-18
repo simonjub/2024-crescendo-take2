@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Swerve;
+package frc.robot.subsystems.swerve;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import frc.robot.Constants;
