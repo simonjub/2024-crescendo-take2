@@ -9,7 +9,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.LEDs;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Climb;
 import frc.robot.commands.SpeakerLock;
@@ -21,33 +21,8 @@ import java.util.function.DoubleSupplier;
 import org.photonvision.PhotonCamera;
 
 public class RobotContainer {
-  private final Climber m_climber = new Climber();
-
-  private final Swerve m_swerveDrive = new Swerve();
-  private final CommandXboxController m_driverController = new CommandXboxController(0);
-  public static final CTREConfigs ctreConfigs = new CTREConfigs();
-
-  private final int translationAxis = XboxController.Axis.kLeftY.value;
-  private final int strafeAxis = XboxController.Axis.kLeftX.value;
-  private final int rotationAxis = XboxController.Axis.kRightX.value;
-
-  // Slew Rate Limiters to limit acceleration of joystick inputs
-  private final SlewRateLimiter translationLimiter = new SlewRateLimiter(3);
-  private final SlewRateLimiter strafeLimiter = new SlewRateLimiter(3);
-  private final SlewRateLimiter rotationLimiter = new SlewRateLimiter(3);
-
-  private final double kJoystickDeadband = 0.1;
-
-  private double conditionJoystick(int axis, SlewRateLimiter limiter, double deadband) {
-    return -limiter.calculate(
-        MathUtil.applyDeadband(m_driverController.getRawAxis(axis), deadband));
-  }
-
-  private final CommandXboxController m_coDriverController = new CommandXboxController(1);
-
-  private final DoubleSupplier climbAxis = () -> m_coDriverController.getRawAxis(5);
-  private SpeakerLock m_speakerLockCmd;
-  private PhotonCamera m_camera;
+  // The robot's subsystems and commands are defined here...
+  private final LEDs m_LEDs = new LEDs();
 
   public RobotContainer() {
     m_climber.setDefaultCommand(new Climb(m_climber, climbAxis));
@@ -68,7 +43,18 @@ public class RobotContainer {
     configureSmartDashboardCommands();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    SmartDashboard.putData("rainbow", m_LEDs.rainbow());
+    SmartDashboard.putData("red", m_LEDs.red());
+    SmartDashboard.putData("green", m_LEDs.green());
+    SmartDashboard.putData("blue", m_LEDs.blue());
+    SmartDashboard.putData("lavender", m_LEDs.lavender());
+    SmartDashboard.putData("yellow", m_LEDs.yellow());
+    SmartDashboard.putData("orange", m_LEDs.orange());
+    SmartDashboard.putNumber("colorFinderRed", 0);
+    SmartDashboard.putNumber("colorFinderGreen", 0);
+    SmartDashboard.putNumber("colorFinderBlue", 0);
+  }
 
   private void configureSmartDashboardCommands() {
     SmartDashboard.putString("Camera", m_camera.toString());
@@ -76,6 +62,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return m_LEDs.rainbow();
   }
 }
