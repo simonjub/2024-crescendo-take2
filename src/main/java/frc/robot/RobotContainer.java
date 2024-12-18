@@ -9,7 +9,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.LEDs;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Climb;
@@ -49,7 +48,7 @@ public class RobotContainer {
     SmartDashboard.putData("red", m_LEDs.red());
     SmartDashboard.putData("green", m_LEDs.green());
     SmartDashboard.putData("blue", m_LEDs.blue());
-    SmartDashboard.putData("teal", m_LEDs.teal());
+    SmartDashboard.putData("lavender", m_LEDs.lavender());
     SmartDashboard.putData("yellow", m_LEDs.yellow());
     SmartDashboard.putData("orange", m_LEDs.orange());
     SmartDashboard.putNumber("colorFinderRed", 0);
@@ -63,6 +62,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return m_LEDs.rainbow();
   }
 }

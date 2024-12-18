@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,7 +26,7 @@ public class LEDs extends SubsystemBase {
   }
 
   // rainbow when game ends
-  public Command rainbow() {
+  public void setRainbowColor() {
 
     /** (Rainbow first pixel hue) */
     int rainbowFirstPixelHue = 0;
@@ -43,7 +44,11 @@ public class LEDs extends SubsystemBase {
     rainbowFirstPixelHue += 3;
     // Check bounds
     rainbowFirstPixelHue %= 180;
-    return this.runOnce(() -> ledStrip.setData(ledBuffer));
+  }
+
+  public Command rainbow() {
+
+    return this.runOnce(() -> setRainbowColor());
   }
 
   // blue when climber
@@ -86,23 +91,23 @@ public class LEDs extends SubsystemBase {
   }
 
   // teal when intaking
-  public void setTealColor() {
+  public void setLavenderColor() {
     for (var i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 0, 128, 128);
+      ledBuffer.setRGB(i, 30, 20, 90);
     }
     ledStrip.setData(ledBuffer);
   }
 
-  public Command teal() {
+  public Command lavender() {
 
-    return this.runOnce(() -> setTealColor());
+    return this.runOnce(() -> setLavenderColor());
   }
 
   // yellow when...
-  // could be removed (more green than yellow and no subsystem tu use)
+  // could be removed ( no subsystem tu use)
   public void setYellowColor() {
     for (var i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 255, 255, 0);
+      ledBuffer.setRGB(i, 230, 90, 0);
     }
     ledStrip.setData(ledBuffer);
   }
@@ -113,10 +118,9 @@ public class LEDs extends SubsystemBase {
   }
 
   // orange when elevator shoots
-  // to make orange (it's kind of yellow)
   public void setOrangeColor() {
     for (var i = 0; i < ledBuffer.getLength(); i++) {
-      ledBuffer.setRGB(i, 255, 255, 0);
+      ledBuffer.setRGB(i, 230, 20, 0);
     }
     ledStrip.setData(ledBuffer);
   }
@@ -144,5 +148,8 @@ public class LEDs extends SubsystemBase {
   @Override
   public void periodic() {
     setColorFinder();
+    if (!DriverStation.isAutonomous()) {
+      rainbow().cancel();
+    }
   }
 }
