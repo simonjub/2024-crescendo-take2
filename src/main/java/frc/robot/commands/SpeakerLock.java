@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,12 +11,12 @@ import frc.robot.Constants;
 import java.io.IOException;
 import java.util.function.DoubleSupplier;
 import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 /***
- * TODO:
+ * HISTORY:
+ * 2024-12-16:  - camera vision2 recalibrated 640x480 50 images instead of 12
  * 2024-12-16:  - camera vision2 calibrated 640x480 (Microsoft LifeCam HD-3000)
  * 2024-12-09:  - Need to calibrate the camera possibly try with something different than onboard picam if
  *              the detection distance isn't enough.
@@ -139,15 +138,16 @@ public class SpeakerLock extends Command {
       SmartDashboard.putString("Target height", Double.toString(targetHeight));
 
       var targetPitch = target.getPitch();
+      var bestPose = target.getBestCameraToTarget();
+      var targetX = bestPose.getX();
+      var targetY = bestPose.getY();
+      var targetZ = bestPose.getZ();
+      var distanceToTarget = Math.sqrt(targetX * targetX + targetY * targetY + targetZ * targetZ);
 
       SmartDashboard.putString("Target pitch", Double.toString(targetPitch));
-
-      var distanceToTarget =
-          PhotonUtils.calculateDistanceToTargetMeters(
-              Constants.VisionConstants.kAprilTagCameraHeight,
-              targetHeight,
-              Constants.VisionConstants.kAprilTagCameraPitch,
-              Units.degreesToRadians(targetPitch));
+      SmartDashboard.putString("Target X", Double.toString(targetX));
+      SmartDashboard.putString("Target Y", Double.toString(targetY));
+      SmartDashboard.putString("Target Z", Double.toString(targetZ));
 
       SmartDashboard.putString("Target distance", Double.toString(distanceToTarget));
 
