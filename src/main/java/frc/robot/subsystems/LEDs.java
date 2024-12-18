@@ -147,7 +147,7 @@ public class LEDs extends SubsystemBase {
 
   @Override
   public void periodic() {
-    setColorFinder();
+    // setColorFinder();
     if (!DriverStation.isAutonomous()) {
       rainbow().cancel();
     }
